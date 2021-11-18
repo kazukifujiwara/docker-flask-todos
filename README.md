@@ -21,8 +21,12 @@
     │   └── todo.py
     ├── schema
     │   └── todo.py
-    └── utils
-        └── format.py
+    ├── templates
+    │   ├── layout.html
+    │   └── view.html
+    ├── utils
+    │   └── format.py
+    └── view.py
 ```
 
 ## アプリケーション起動
@@ -45,9 +49,13 @@ docker-compose down
 ## アクセス方法
 
 ```
+# View
+http://localhost/view/
+
+# swagger ui
 http://localhost/doc/
 
-# タスク一覧
+# タスク一覧(raw data)
 http://localhost/api/todos/
 
 # IDでタスクを指定（例）
@@ -156,8 +164,13 @@ curl -X 'DELETE' \
   -H 'accept: application/json'
 ```
 
+## TODO
+
+* View から GET/POST/PUT/DELETE を実行可能にする。
+
 ## 参考URL
 
 * [DockerとDocker ComposeでPythonの実行環境を作成する](https://zuma-lab.com/posts/docker-python-settings)
 * [Dockerfile + docker-compose.ymlでFlask環境構築](https://qiita.com/ayaka105/items/7f8428fa352bcd6e75e9)
 * [Flask-RESTX でサンプルアプリケーションを作ってみた](https://qiita.com/kiyo27/items/d928f65b215d914f1979)
+* [【Flask】JQueryでAjax通信をする手順。〜 JavaScript初心者向け 〜](https://sunnyday-travel-aso-6487.ssl-lolipop.jp/programing/python/flask/ajax/)

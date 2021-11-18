@@ -17,9 +17,9 @@ todo = api.model('Todo', {
 })
 
 DAO = TodoDAO()
-DAO.create({'task': 'Build an API'})
-DAO.create({'task': '??????'})
-DAO.create({'task': 'profit!'})
+DAO.create({'task': 'Task01'})
+DAO.create({'task': 'Task02'})
+DAO.create({'task': 'Task03'})
 
 @api.route('/')
 class TodoList(Resource):

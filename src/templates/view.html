@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}
+TODO App
+{% endblock %}
+
+{% block headline %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="mb-3" id="msg">{{ message }}</div>
+
+<!-- Vue.js container -->
+<div id="app" class="m-3">
+    {% raw %}
+    <mycomp />
+    {% endraw %}
+</div>
+
+<!-- mycomp's template -->
+{% raw %}
+<script type="text/x-template" id="mycomp-template">
+    <div>
+        <div class="alert alert-info">
+            <h5>{{alert}}</h5>
+            <ul>
+                <li><a href="/doc">swagger ui</a></li>
+                <li><a href="/api/todos">raw data</a></li>
+            </ul>
+        </div>
+        <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>task</th>
+                <th>created_at</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in data" class="clickable-row" v-bind:data-id="item.id">
+                <th>{{item.id}}</th>
+                <th>{{item.task}}</th>
+                <th>{{item.created_at}}</th>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</script>
+{% endraw %}
+
+<!-- Vue.js script -->
+<script>
+// mycomp object
+Vue.component('mycomp', {
+    template: '#mycomp-template',
+    data:function(){
+        return {
+            alert: 'TODO API',
+            data: [{"id":"(null)", "task":"(null)", "crated_at":"(null)"}]
+        }
+    },
+    methods:{
+        getdata: function() {
+            let self = this;
+            $.get("/api/todos", function(data) {
+                self.data = eval(data);
+            });  
+        },
+    },
+    created: function() {
+        this.getdata()
+    }
+});
+
+// start vue.
+new Vue({
+    el:'#app',
+});
+</script>
+{% endblock %} 
+
+{% block footer %}
+{% endblock %} 
