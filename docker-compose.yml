@@ -1,0 +1,12 @@
+version: '3'
+services:
+  python3:
+    restart: always
+    build: .
+    ports:
+      - "5000:5000"
+    container_name: 'flask-restx-test-env'
+    working_dir: '/root/src'
+    tty: true
+    volumes:
+      - ${SRC_PATH}:/root/src
