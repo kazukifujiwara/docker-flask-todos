@@ -4,8 +4,8 @@ services:
     restart: always
     build: .
     ports:
-      - "5000:5000"
-    container_name: 'flask-restx-test-env'
+      - "80:5000"
+    container_name: 'flask'
     working_dir: '/root/src'
     tty: true
     volumes:

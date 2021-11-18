@@ -6,6 +6,7 @@
 
 ```
 .
+├── .env
 ├── Dockerfile
 ├── README.md
 ├── docker-compose.yml
@@ -44,13 +45,13 @@ docker-compose down
 ## アクセス方法
 
 ```
-http://localhost:5000/doc/
+http://localhost/doc/
 
 # タスク一覧
-http://localhost:5000/api/todos/
+http://localhost/api/todos/
 
 # IDでタスクを指定（例）
-http://localhost:5000/api/todos/12d6aaeb-4d4f-4b6a-9ee5-c8a0d9b68cba
+http://localhost/api/todos/12d6aaeb-4d4f-4b6a-9ee5-c8a0d9b68cba
 ```
 
 ## Operations
