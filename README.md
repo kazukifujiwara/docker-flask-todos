@@ -21,6 +21,11 @@
     │   └── todo.py
     ├── schema
     │   └── todo.py
+    ├── static
+    │   ├── css
+    │   │   └── main.css
+    │   └── js
+    │       └── main.js
     ├── templates
     │   ├── layout.html
     │   └── view.html
