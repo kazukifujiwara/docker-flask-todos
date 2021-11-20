@@ -1,0 +1,18 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0%;
+    margin: 0%;
+}
+
+.sidebar {
+    top: 0;
+    left: -100%;
+    height: 100%;
+    z-index: 10;
+    transition: all .35s ease;
+}
+
+.sidebar-toggler {
+    cursor: pointer;
+}

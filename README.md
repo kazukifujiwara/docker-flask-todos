@@ -167,6 +167,7 @@ curl -X 'DELETE' \
 ## TODO
 
 * View から GET/POST/PUT/DELETE を実行可能にする。
+* タスク一覧表示にBootstrapのAccordionを使ってみる。
 
 ## 参考URL
 
@@ -174,3 +175,4 @@ curl -X 'DELETE' \
 * [Dockerfile + docker-compose.ymlでFlask環境構築](https://qiita.com/ayaka105/items/7f8428fa352bcd6e75e9)
 * [Flask-RESTX でサンプルアプリケーションを作ってみた](https://qiita.com/kiyo27/items/d928f65b215d914f1979)
 * [【Flask】JQueryでAjax通信をする手順。〜 JavaScript初心者向け 〜](https://sunnyday-travel-aso-6487.ssl-lolipop.jp/programing/python/flask/ajax/)
+* [(YouTube)Bootstrap5を使ってサイドバーメニューを作る](https://www.youtube.com/watch?v=8wC1IpncFwI)
