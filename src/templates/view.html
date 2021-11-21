@@ -29,22 +29,33 @@ TODO App
                 <li><a href="/api/todos">raw data</a></li>
             </ul>
         </div>
-        <table class="table">
-        <thead>
-            <tr>
-                <th>id</th>
-                <th>task</th>
-                <th>created_at</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="item in data" class="clickable-row" v-bind:data-id="item.id">
-                <th>{{item.id}}</th>
-                <th>{{item.task}}</th>
-                <th>{{item.created_at}}</th>
-            </tr>
-        </tbody>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>ID</th>
+                    <th>Created at</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,key) in data" class="clickable-row" v-bind:data-id="item.id">
+                    <td>{{item.task}}</td>
+                    <td>{{item.id}}</td>
+                    <td>{{item.created_at}}</td>
+                </tr>
+            </tbody>
         </table>
+
+        <!-- <div class="modal fade" id="item_modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    hoge
+                    {{active_item_id}}
+                </div>
+            </div>
+        </div> -->
+
     </div>
 </script>
 {% endraw %}
@@ -57,7 +68,8 @@ Vue.component('mycomp', {
     data:function(){
         return {
             alert: 'TODO API',
-            data: [{"id":"(null)", "task":"(null)", "crated_at":"(null)"}]
+            data: [{"id":"(null)", "task":"(null)", "crated_at":"(null)"}],
+            // active_item_id: ''
         }
     },
     methods:{
@@ -67,11 +79,40 @@ Vue.component('mycomp', {
                 self.data = eval(data);
             });  
         },
+        // getById: function(active_item_id) {
+        //     let self = this;
+        //     $.get("/api/todos/" + active_item_id, function(active_item_id) {
+        //         if (data == 'nodata') {
+        //             self.active_item_id = 'null';
+        //         } else {
+        //             self.active_item_id = 'not null';
+        //         }
+        //     });
+        // },
+        // testFunc: function() {
+        //     let self = this;
+        //     $.ajax({
+        //         type: 'GET',
+        //         url: '/api/todos/',
+        //     })
+        //     $(".clickable-row").click(function(e) {
+        //         let clicked_id = e.delegateTaget.dataset['id'];
+        //         alert(clicked_id);
+        //     });
+        // },
+        // openModal: function() {
+        //     let self = this;
+
+            
+        //     $('#item_modal').modal('show');
+        // },
     },
     created: function() {
         this.getdata()
     }
 });
+
+
 
 // start vue.
 new Vue({
