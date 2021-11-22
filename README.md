@@ -182,3 +182,4 @@ curl -X 'DELETE' \
 * [【Flask】JQueryでAjax通信をする手順。〜 JavaScript初心者向け 〜](https://sunnyday-travel-aso-6487.ssl-lolipop.jp/programing/python/flask/ajax/)
 * [(YouTube)Bootstrap5を使ってサイドバーメニューを作る](https://www.youtube.com/watch?v=8wC1IpncFwI)
 * [vue.jsのv-forで選択された情報を取得して何かしたい](https://qiita.com/keigodasu/items/abc5ed8e5a81804a49b7)
+* [(vue.js) inputフォームの初期値(value属性)を、vueのdataの内容にしたい](https://teratail.com/questions/160092)
