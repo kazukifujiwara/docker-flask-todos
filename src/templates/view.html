@@ -39,7 +39,7 @@ TODO App
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,key) in data" class="clickable-row" v-bind:data-id="item.id">
+                <tr v-for="item in data" @click="select(item)">
                     <td>{{item.task}}</td>
                     <td>{{item.id}}</td>
                     <td>{{item.created_at}}</td>
@@ -47,14 +47,39 @@ TODO App
             </tbody>
         </table>
 
-        <!-- <div class="modal fade" id="item_modal">
+        <div class="modal fade" id="item_modal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    hoge
-                    {{active_item_id}}
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <span>ID: </span><br>
+                            <span>{{picked_item.id}}</span><br>
+                            <span>Created at:</span><br>
+                            <span>{{picked_item.created_at}}</span>
+                        </div>
+                        <form>
+                        <div class="mb-3">
+                            <label for="task-name" class="col-form-label">Task name:</label>
+                            <input type="text" class="form-control" id="task-name" v-model="picked_item.task">
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-detail" class="col-form-label">Task detail:</label>
+                            <textarea class="form-control" id="task-detail">dummy</textarea>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger">Delete(unimplemented)</button>
+                        <button type="button" class="btn btn-outline-primary">Edit(unimplemented)</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
     </div>
 </script>
@@ -69,7 +94,7 @@ Vue.component('mycomp', {
         return {
             alert: 'TODO API',
             data: [{"id":"(null)", "task":"(null)", "crated_at":"(null)"}],
-            // active_item_id: ''
+            picked_item: {}
         }
     },
     methods:{
@@ -79,33 +104,15 @@ Vue.component('mycomp', {
                 self.data = eval(data);
             });  
         },
-        // getById: function(active_item_id) {
-        //     let self = this;
-        //     $.get("/api/todos/" + active_item_id, function(active_item_id) {
-        //         if (data == 'nodata') {
-        //             self.active_item_id = 'null';
-        //         } else {
-        //             self.active_item_id = 'not null';
-        //         }
-        //     });
-        // },
-        // testFunc: function() {
-        //     let self = this;
-        //     $.ajax({
-        //         type: 'GET',
-        //         url: '/api/todos/',
-        //     })
-        //     $(".clickable-row").click(function(e) {
-        //         let clicked_id = e.delegateTaget.dataset['id'];
-        //         alert(clicked_id);
-        //     });
-        // },
-        // openModal: function() {
-        //     let self = this;
-
-            
-        //     $('#item_modal').modal('show');
-        // },
+        select: function (task) {
+            let self = this;
+            self.picked_item = task;
+            self.openModal();
+        },
+        openModal: function() {
+            let self = this; 
+            $('#item_modal').modal('show');
+        },
     },
     created: function() {
         this.getdata()
