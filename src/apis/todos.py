@@ -30,6 +30,7 @@ DAO.create({'status': 'done', 'task': 'change task\'s status (to done)', 'detail
 DAO.create({'status': 'done', 'task': 'change task\'s status (to new)', 'detail': 'implement status-change function.\n(done)->(new)'})
 DAO.create({'status': 'pending', 'task': 'Implement Login Function', 'detail': 'implement Login function'})
 DAO.create({'status': 'new', 'task': 'Support for Multiple TODO List', 'detail': 'switching to multiple todo lists.'})
+DAO.create({'status': 'new', 'task': 'Data Persistence', 'detail': 'Ensure that data is not lost when the app is restarted.'})
 
 DAO.create({'status': 'new', 'task': 'Task01' , 'detail': 'Task01'})
 DAO.create({'status': 'new', 'task': 'Task02' , 'detail': 'Task02'})

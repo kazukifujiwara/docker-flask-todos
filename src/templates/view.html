@@ -149,7 +149,7 @@ TODO App
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-danger" v-on:click="openDeleteTaskModal">Delete</button>
                         <button type="button" class="btn btn-outline-primary" v-on:click="openUpdateTaskModal">Update</button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" v-on:click="initializeParameters()">Close</button>
                     </div>
                 </div>
             </div>
@@ -176,7 +176,7 @@ TODO App
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" v-on:click="initializeParameters()">Cancel</button>
                         <button type="button" class="btn btn-outline-primary" v-on:click="createTask">Add this task</button>    
                     </div>
                 </div>
@@ -211,7 +211,7 @@ TODO App
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" v-on:click="initializeParameters()">Cancel</button>
                         <button type="button" class="btn btn-outline-primary" v-on:click="updateTask(picked_item)">Update this task</button> 
                     </div>
                 </div>
@@ -246,7 +246,7 @@ TODO App
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" v-on:click="initializeParameters()">Cancel</button>
                         <button type="button" class="btn btn-outline-danger" v-on:click="deleteTask(picked_item)">Delete this task</button> 
                     </div>
                 </div>
@@ -434,6 +434,12 @@ Vue.component('mycomp', {
             let self = this;
             $('#item_modal').modal('hide');
             $('#delete_task_modal').modal('show');
+        },
+        initializeParameters: function() {
+            let self = this;
+            self.f_task = '';
+            self.f_status = '';
+            self.f_detail = '';
         },
     },
     created: function() {
