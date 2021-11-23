@@ -187,3 +187,4 @@ curl -X 'DELETE' \
 * [(YouTube)Bootstrap5を使ってサイドバーメニューを作る](https://www.youtube.com/watch?v=8wC1IpncFwI)
 * [vue.jsのv-forで選択された情報を取得して何かしたい](https://qiita.com/keigodasu/items/abc5ed8e5a81804a49b7)
 * [(vue.js) inputフォームの初期値(value属性)を、vueのdataの内容にしたい](https://teratail.com/questions/160092)
+* [Ajax posting data Using FormData, serialize or JSON.stringify method](https://stackoverflow.com/questions/46265353/ajax-posting-data-using-formdata-serialize-or-json-stringify-method)
