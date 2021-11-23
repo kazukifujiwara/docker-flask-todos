@@ -23,8 +23,13 @@ todo = api.model('Todo', {
 })
 
 DAO = TodoDAO()
+DAO.create({'status': 'done', 'task': 'ADD function', 'detail': 'implement task-add function.'})
+DAO.create({'status': 'new', 'task': 'UPDATE function', 'detail': 'implement task-update function.'})
+DAO.create({'status': 'new', 'task': 'DELETE function', 'detail': 'implement task-delete function.'})
+DAO.create({'status': 'new', 'task': 'change task\'s status (to done)', 'detail': 'implement status-change function.\n(new)->(done)'})
+DAO.create({'status': 'new', 'task': 'change task\'s status (to new)', 'detail': 'implement status-change function.\n(done)->(new)'})
 DAO.create({'status': 'new', 'task': 'Task01'})
-DAO.create({'status': 'done', 'task': 'Task02'})
+DAO.create({'status': 'done', 'task': 'Task01'})
 DAO.create({'status': 'new', 'task': 'Task03', 'detail': 'task3 has detail.'})
 
 @api.route('/')

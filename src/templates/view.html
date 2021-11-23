@@ -22,14 +22,20 @@ TODO App
 {% raw %}
 <script type="text/x-template" id="mycomp-template">
     <div class="ontainer-fluid">
+
+        <button type="button" class="btn btn-primary" @click="openCreateTaskModal()">Add a task</button>
+        <br><br>
+        
         <div class="row">
             <!-- ToDo Section -->
             <div id="ToDoSection" class="col-md-6 col-sm-12 col-xs-12">
                 <h2>ToDo</h2>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'new'">
-                        <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
-                        <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
+                        <div @click="toDone(item)">
+                            <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
+                            <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
+                        </div>
                         <div class="ms-2 me-auto container-fluid" @click="select(item)">
                             <div class="fw-bold">{{item.task}}</div>
                             <div v-if="(item.detail != null) && (item.detail != '')">
@@ -48,10 +54,12 @@ TODO App
                 <h2>Done</h2>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'done'">
-                        <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
-                        <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
+                        <div>
+                            <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
+                            <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
+                        </div>
                         <div class="ms-2 me-auto container-fluid" @click="select(item)">
-                            <div class="fw-bold">{{item.task}}</div>
+                            <div class="fw-bold"><s>{{item.task}}</s></div>
                             <div v-if="(item.detail != null) && (item.detail != '')">
                                 <i class="bi bi-file-earmark-text"></i>
                                 <span>detail</span>
@@ -64,6 +72,7 @@ TODO App
             </div>
         </div>
 
+        <!-- Open Item Modal -->
         <div class="modal fade" id="item_modal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -73,10 +82,8 @@ TODO App
                     </div>
                     <div class="modal-body">
                         <div>
-                            <span>ID: </span><br>
-                            <span>{{picked_item.id}}</span><br>
                             <span>Created at:</span><br>
-                            <span>{{picked_item.created_at}}</span>
+                            <span>{{picked_item.created_at}}</span><br>
                             <span>Status:</span><br>
                             <span>{{picked_item.status}}</span>
                         </div>
@@ -100,6 +107,34 @@ TODO App
             </div>
         </div>
 
+        <!-- Create Task Modal -->
+        <div class="modal fade" id="create_task_modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Create Task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                        <div class="mb-3">
+                            <label for="task-name" class="col-form-label">Task name:</label>
+                            <input type="text" class="form-control" id="task-name" v-model="f_task">
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-detail" class="col-form-label">Task detail:</label>
+                            <textarea class="form-control" id="task-detail" v-model="f_detail">{{picked_item.detail}}</textarea>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-primary" v-on:click="createTask">Add this task</button>    
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </script>
 {% endraw %}
@@ -113,7 +148,9 @@ Vue.component('mycomp', {
         return {
             alert: 'TODO API',
             data: [{"id":"(null)", "task":"(null)", "status":"(null)", "crated_at":"(null)"}],
-            picked_item: {}
+            picked_item: {},
+            f_task: '',
+            f_detail : ''
         }
     },
     methods:{
@@ -123,14 +160,46 @@ Vue.component('mycomp', {
                 self.data = eval(data);
             });  
         },
-        select: function (task) {
+        select: function(task) {
             let self = this;
             self.picked_item = task;
             self.openItemModal();
         },
+        createTask: function() {
+            let self = this;
+            $.ajax({
+                type: 'POST',
+                url: '/api/todos/',
+                data: JSON.stringify({
+                    "task": self.f_task,
+                    "detail": self.f_detail,
+                    "status": "new"
+                }),
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                success: function(data) {
+                    self.f_task = '';
+                    self.f_detail = '';
+                    self.getdata();
+                    console.log('Success', data);
+                    $('#create_task_modal').modal('hide');
+                },
+                error: function(request, status, err) {
+                    console.log(err);
+                    alert(err);
+                    $('#create_task_modal').modal('hide');
+                }
+            });
+        },
         openItemModal: function() {
             let self = this; 
             $('#item_modal').modal('show');
+        },
+        openCreateTaskModal: function() {
+            let self = this; 
+            $('#create_task_modal').modal('show');
         },
     },
     created: function() {
