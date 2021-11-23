@@ -29,10 +29,10 @@ TODO App
         <div class="row">
             <!-- ToDo Section -->
             <div id="ToDoSection" class="col-md-6 col-sm-12 col-xs-12">
-                <h2>ToDo</h2>
+                <h2>To Do</h2>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'new'">
-                        <div @click="toDone(item)">
+                        <div @click="changeStatusToDone(item)">
                             <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
                             <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
                         </div>
@@ -46,6 +46,9 @@ TODO App
                         <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">New</span>
                         <span class="badge bg-primary rounded-pill" v-if="item.status === 'done'">Done</span>
                     </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start" v-if="data.filter(i => i.status === 'new').length === 0">
+                        There is no "To Do" item.
+                    </li>
                 </ul>
             </div>
 
@@ -54,7 +57,7 @@ TODO App
                 <h2>Done</h2>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'done'">
-                        <div>
+                        <div @click="changeStatusToNew(item)">
                             <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
                             <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
                         </div>
@@ -67,6 +70,9 @@ TODO App
                         </div>
                         <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">New</span>
                         <span class="badge bg-primary rounded-pill" v-if="item.status === 'done'">Done</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start" v-if="data.filter(i => i.status === 'done').length === 0">
+                        There is no "Done" item.
                     </li>
                 </ul>
             </div>
@@ -82,25 +88,25 @@ TODO App
                     </div>
                     <div class="modal-body">
                         <div>
-                            <span>Created at:</span><br>
-                            <span>{{picked_item.created_at}}</span><br>
-                            <span>Status:</span><br>
-                            <span>{{picked_item.status}}</span>
+                            <span>Created at: {{picked_item.created_at}}</span><br>
+                            <span>Status:</span>
+                            <span class="badge bg-success rounded-pill" v-if="picked_item.status === 'new'">New</span>
+                            <span class="badge bg-primary rounded-pill" v-if="picked_item.status === 'done'">Done</span>
                         </div>
                         <form>
                         <div class="mb-3">
                             <label for="task-name" class="col-form-label">Task name:</label>
-                            <input type="text" class="form-control" id="task-name" v-model="picked_item.task">
+                            <input type="text" class="form-control" id="task-name" v-model="f_task">
                         </div>
                         <div class="mb-3">
                             <label for="task-detail" class="col-form-label">Task detail:</label>
-                            <textarea class="form-control" id="task-detail">{{picked_item.detail}}</textarea>
+                            <textarea class="form-control" id="task-detail"  v-model="f_detail"></textarea>
                         </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger">Delete(unimplemented)</button>
-                        <button type="button" class="btn btn-outline-primary">Edit(unimplemented)</button>
+                        <button type="button" class="btn btn-outline-danger" v-on:click="openDeleteTaskModal">Delete</button>
+                        <button type="button" class="btn btn-outline-primary" v-on:click="openUpdateTaskModal">Update</button>
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -135,6 +141,76 @@ TODO App
             </div>
         </div>
 
+        <!-- Update Item Modal -->
+        <div class="modal fade" id="update_task_modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm: Update Task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <span>Created at: {{picked_item.created_at}}</span><br>
+                            <span>Status:</span>
+                            <span class="badge bg-success rounded-pill" v-if="picked_item.status === 'new'">New</span>
+                            <span class="badge bg-primary rounded-pill" v-if="picked_item.status === 'done'">Done</span>
+                        </div>
+                        <form>
+                        <div class="mb-3">
+                            <label for="task-name" class="col-form-label">Task name:</label><br>
+                            <span>{{f_task}}</span>
+                            <!-- <input type="text" class="form-control" id="task-name" v-model="picked_item.task"> -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-detail" class="col-form-label">Task detail:</label><br>
+                            <span>{{f_detail}}</span>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-primary" v-on:click="updateTask(picked_item)">Update this task</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Item Modal -->
+        <div class="modal fade" id="delete_task_modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm: Delete Task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <span>Created at: {{picked_item.created_at}}</span><br>
+                            <span>Status:</span>
+                            <span class="badge bg-success rounded-pill" v-if="picked_item.status === 'new'">New</span>
+                            <span class="badge bg-primary rounded-pill" v-if="picked_item.status === 'done'">Done</span>
+                        </div>
+                        <form>
+                        <div class="mb-3">
+                            <label for="task-name" class="col-form-label">Task name:</label><br>
+                            <span>{{picked_item.task}}</span>
+                            <!-- <input type="text" class="form-control" id="task-name" v-model="picked_item.task"> -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-detail" class="col-form-label">Task detail:</label><br>
+                            <span>{{picked_item.detail}}</span>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-danger" v-on:click="deleteTask(picked_item)">Delete this task</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </script>
 {% endraw %}
@@ -160,9 +236,11 @@ Vue.component('mycomp', {
                 self.data = eval(data);
             });  
         },
-        select: function(task) {
+        select: function(item) {
             let self = this;
-            self.picked_item = task;
+            self.picked_item = item;
+            self.f_task = item.task;
+            self.f_detail = item.detail;
             self.openItemModal();
         },
         createTask: function() {
@@ -193,6 +271,106 @@ Vue.component('mycomp', {
                 }
             });
         },
+        updateTask: function(item) {
+            let self = this;
+            $.ajax({
+                type: 'PUT',
+                url: '/api/todos/' + item.id,
+                data: JSON.stringify({
+                    "task": self.f_task,
+                    "detail": self.f_detail,
+                    "status": item.status
+                }),
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                success: function(data) {
+                    self.f_task = '';
+                    self.f_detail = '';
+                    self.getdata();
+                    console.log('Success', data);
+                    alert("Successfully updated the task.");
+                    $('#update_task_modal').modal('hide');
+                },
+                error: function(request, status, err) {
+                    console.log(err);
+                    alert(err);
+                    $('#update_task_modal').modal('hide');
+                }
+            });
+        },
+        deleteTask: function(item) {
+            let self = this;
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/todos/' + item.id,
+                headers: {
+                    'accept': 'application/json'
+                },
+                success: function(data) {
+                    self.f_task = '';
+                    self.f_detail = '';
+                    self.getdata();
+                    console.log('Success', data);
+                    alert("Successfully deleted the task.");
+                    $('#delete_task_modal').modal('hide');
+                },
+                error: function(request, status, err) {
+                    console.log(err);
+                    alert(err);
+                    $('#delete_task_modal').modal('hide');
+                }
+            });
+        },
+        changeStatusToNew: function(item){
+            let self = this;
+            $.ajax({
+                type: 'PUT',
+                url: '/api/todos/' + item.id,
+                data: JSON.stringify({
+                    "task": item.task,
+                    "detail": item.detail,
+                    "status": "new"
+                }),
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                success: function(data) {
+                    self.getdata();
+                    console.log('Success', data);
+                },
+                error: function(request, status, err) {
+                    console.log(err);
+                    alert(err);
+                }
+            });
+        },
+        changeStatusToDone: function(item){
+            let self = this;
+            $.ajax({
+                type: 'PUT',
+                url: '/api/todos/' + item.id,
+                data: JSON.stringify({
+                    "task": item.task,
+                    "detail": item.detail,
+                    "status": "done"
+                }),
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                success: function(data) {
+                    self.getdata();
+                    console.log('Success', data);
+                },
+                error: function(request, status, err) {
+                    console.log(err);
+                    alert(err);
+                }
+            });
+        },
         openItemModal: function() {
             let self = this; 
             $('#item_modal').modal('show');
@@ -200,6 +378,16 @@ Vue.component('mycomp', {
         openCreateTaskModal: function() {
             let self = this; 
             $('#create_task_modal').modal('show');
+        },
+        openUpdateTaskModal: function() {
+            let self = this;
+            $('#item_modal').modal('hide');
+            $('#update_task_modal').modal('show');
+        },
+        openDeleteTaskModal: function() {
+            let self = this;
+            $('#item_modal').modal('hide');
+            $('#delete_task_modal').modal('show');
         },
     },
     created: function() {
