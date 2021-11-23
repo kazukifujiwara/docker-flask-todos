@@ -9,17 +9,23 @@ todo = api.model('Todo', {
                         description='The task unique identifier',
                         example='fdc02467-67df-4577-9ceb-d9a18acc0587'),
     'task': fields.String(required=True,
-                         description='The task details',
+                         description='The task name',
                          example='Build an API'),
+    'status': fields.String(required=True,
+                         description='The task status (new/done)',
+                         example='new'),
     'created_at': TimeFormat(readonly=True,
                             description='The task created',
-                            example='2021-08-09 18:19:23')
+                            example='2021-08-09 18:19:23'),
+    'detail': fields.String(required=False,
+                         description='The task detail',
+                         example='This is sample task\'s detail')
 })
 
 DAO = TodoDAO()
-DAO.create({'task': 'Task01'})
-DAO.create({'task': 'Task02'})
-DAO.create({'task': 'Task03'})
+DAO.create({'status': 'new', 'task': 'Task01'})
+DAO.create({'status': 'done', 'task': 'Task02'})
+DAO.create({'status': 'new', 'task': 'Task03', 'detail': 'task3 has detail.'})
 
 @api.route('/')
 class TodoList(Resource):

@@ -3,8 +3,8 @@ from .todos import api as todos
 
 api = Api(
     version='1.0',
-    title='Sample API',
-    description='A sample API',
+    title='Sample TODO API',
+    description='Sample TODO API',
     doc="/doc/"
 )
 

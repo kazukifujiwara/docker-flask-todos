@@ -21,18 +21,48 @@ TODO App
 <!-- mycomp's template -->
 {% raw %}
 <script type="text/x-template" id="mycomp-template">
-    <div>
-        <h2>ToDo</h2>
+    <div class="container">
+        <div class="row">
+            <!-- ToDo Section -->
+            <div id="ToDoSection" class="col-md-6 col-sm-12 col-xs-12">
+                <h2>ToDo</h2>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'new'">
+                        <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
+                        <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
+                        <div class="ms-2 me-auto container-fluid" @click="select(item)">
+                            <div class="fw-bold">{{item.task}}</div>
+                            <div v-if="(item.detail != null) && (item.detail != '')">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <span>detail</span>
+                            </div>
+                        </div>
+                        <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">New</span>
+                        <span class="badge bg-primary rounded-pill" v-if="item.status === 'done'">Done</span>
+                    </li>
+                </ul>
+            </div>
 
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" @click="select(item)">
-                <div class="ms-2 me-auto">
-                  <div class="fw-bold">{{item.task}}</div>
-                  memo(dummy)
-                </div>
-                <span class="badge bg-primary rounded-pill">Badge(dummy)</span>
-            </li>
-        </ul>
+            <!-- Done Section -->
+            <div id="DoneSection" class="col-md-6 col-sm-12 col-xs-12">
+                <h2>Done</h2>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'done'">
+                        <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
+                        <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
+                        <div class="ms-2 me-auto container-fluid" @click="select(item)">
+                            <div class="fw-bold">{{item.task}}</div>
+                            <div v-if="(item.detail != null) && (item.detail != '')">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <span>detail</span>
+                            </div>
+                        </div>
+                        <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">New</span>
+                        <span class="badge bg-primary rounded-pill" v-if="item.status === 'done'">Done</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
         <div class="modal fade" id="item_modal">
             <div class="modal-dialog" role="document">
@@ -47,6 +77,8 @@ TODO App
                             <span>{{picked_item.id}}</span><br>
                             <span>Created at:</span><br>
                             <span>{{picked_item.created_at}}</span>
+                            <span>Status:</span><br>
+                            <span>{{picked_item.status}}</span>
                         </div>
                         <form>
                         <div class="mb-3">
@@ -55,7 +87,7 @@ TODO App
                         </div>
                         <div class="mb-3">
                             <label for="task-detail" class="col-form-label">Task detail:</label>
-                            <textarea class="form-control" id="task-detail">dummy</textarea>
+                            <textarea class="form-control" id="task-detail">{{picked_item.detail}}</textarea>
                         </div>
                         </form>
                     </div>
@@ -80,7 +112,7 @@ Vue.component('mycomp', {
     data:function(){
         return {
             alert: 'TODO API',
-            data: [{"id":"(null)", "task":"(null)", "crated_at":"(null)"}],
+            data: [{"id":"(null)", "task":"(null)", "status":"(null)", "crated_at":"(null)"}],
             picked_item: {}
         }
     },
@@ -94,9 +126,9 @@ Vue.component('mycomp', {
         select: function (task) {
             let self = this;
             self.picked_item = task;
-            self.openModal();
+            self.openItemModal();
         },
-        openModal: function() {
+        openItemModal: function() {
             let self = this; 
             $('#item_modal').modal('show');
         },
