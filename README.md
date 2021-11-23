@@ -6,6 +6,10 @@
 
 [http://ec2-54-199-191-226.ap-northeast-1.compute.amazonaws.com/view/](http://ec2-54-199-191-226.ap-northeast-1.compute.amazonaws.com/view/)
 
+## View
+
+![TodoApplicationView](image/TodoAppView.png)
+
 ## フォルダ構成
 
 ```
@@ -13,6 +17,7 @@
 ├── .env
 ├── Dockerfile
 ├── README.md
+├── image/
 ├── docker-compose.yml
 ├── requirements.txt
 └── src

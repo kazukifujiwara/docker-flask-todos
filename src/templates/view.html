@@ -31,22 +31,24 @@ TODO App
         
         <div class="row">
             <!-- ToDo Section -->
-            <div id="ToDoSection" class="col-md-6 col-sm-12 col-xs-12">
+            <div id="ToDoSection" class="col-md-4 col-sm-12 col-xs-12">
                 <h2>To Do</h2>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'new'">
                         <div @click="changeStatusToDone(item)">
                             <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
+                            <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'pending'"></i>
                             <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
                         </div>
                         <div class="ms-2 me-auto container-fluid" @click="select(item)">
                             <div class="fw-bold">{{item.task}}</div>
                             <div v-if="(item.detail != null) && (item.detail != '')">
                                 <i class="bi bi-file-earmark-text"></i>
-                                <span>detail</span>
+                                <span>memo</span>
                             </div>
                         </div>
-                        <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">New</span>
+                        <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">To Do</span>
+                        <span class="badge bg-warning rounded-pill" v-if="item.status === 'pending'">Pending</span>
                         <span class="badge bg-primary rounded-pill" v-if="item.status === 'done'">Done</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-start" v-if="data.filter(i => i.status === 'new').length === 0">
@@ -55,23 +57,52 @@ TODO App
                 </ul>
             </div>
 
+            <!-- Pending Section -->
+            <div id="PendingSection" class="col-md-4 col-sm-12 col-xs-12">
+                <h2>Pending</h2>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'pending'">
+                        <div @click="changeStatusToDone(item)">
+                            <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
+                            <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'pending'"></i>
+                            <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
+                        </div>
+                        <div class="ms-2 me-auto container-fluid" @click="select(item)">
+                            <div class="fw-bold">{{item.task}}</div>
+                            <div v-if="(item.detail != null) && (item.detail != '')">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <span>memo</span>
+                            </div>
+                        </div>
+                        <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">To Do</span>
+                        <span class="badge bg-warning rounded-pill" v-if="item.status === 'pending'">Pending</span>
+                        <span class="badge bg-primary rounded-pill" v-if="item.status === 'done'">Done</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start" v-if="data.filter(i => i.status === 'pending').length === 0">
+                        There is no "Pending" item.
+                    </li>
+                </ul>
+            </div>
+
             <!-- Done Section -->
-            <div id="DoneSection" class="col-md-6 col-sm-12 col-xs-12">
+            <div id="DoneSection" class="col-md-4 col-sm-12 col-xs-12">
                 <h2>Done</h2>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" v-if="item.status === 'done'">
                         <div @click="changeStatusToNew(item)">
                             <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'new'"></i>
+                            <i class="sidebar-toggler bi bi-circle me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'pending'"></i>
                             <i class="sidebar-toggler bi bi-check-circle-fill me-3 mt-2 h4" style="color: royalblue;"  v-if="item.status === 'done'"></i>
                         </div>
                         <div class="ms-2 me-auto container-fluid" @click="select(item)">
                             <div class="fw-bold"><s>{{item.task}}</s></div>
                             <div v-if="(item.detail != null) && (item.detail != '')">
                                 <i class="bi bi-file-earmark-text"></i>
-                                <span>detail</span>
+                                <span>memo</span>
                             </div>
                         </div>
-                        <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">New</span>
+                        <span class="badge bg-success rounded-pill" v-if="item.status === 'new'">To Do</span>
+                        <span class="badge bg-warning rounded-pill" v-if="item.status === 'pending'">Pending</span>
                         <span class="badge bg-primary rounded-pill" v-if="item.status === 'done'">Done</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-start" v-if="data.filter(i => i.status === 'done').length === 0">
@@ -100,6 +131,14 @@ TODO App
                         <div class="mb-3">
                             <label for="task-name" class="col-form-label">Task name:</label>
                             <input type="text" class="form-control" id="task-name" v-model="f_task">
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-name" class="col-form-label">Task status:</label>
+                            <select class="form-select" aria-label="task status" id="task-status" v-model="f_status">
+                                <option value="new">To Do</option>
+                                <option value="pending">Pending</option>
+                                <option value="done">Done</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="task-detail" class="col-form-label">Task detail:</label>
@@ -156,14 +195,14 @@ TODO App
                         <div>
                             <span>Created at: {{picked_item.created_at}}</span><br>
                             <span>Status:</span>
-                            <span class="badge bg-success rounded-pill" v-if="picked_item.status === 'new'">New</span>
-                            <span class="badge bg-primary rounded-pill" v-if="picked_item.status === 'done'">Done</span>
+                            <span class="badge bg-success rounded-pill" v-if="f_status === 'new'">To Do</span>
+                            <span class="badge bg-warning rounded-pill" v-if="f_status === 'pending'">Pending</span>
+                            <span class="badge bg-primary rounded-pill" v-if="f_status === 'done'">Done</span>
                         </div>
                         <form>
                         <div class="mb-3">
                             <label for="task-name" class="col-form-label">Task name:</label><br>
                             <span>{{f_task}}</span>
-                            <!-- <input type="text" class="form-control" id="task-name" v-model="picked_item.task"> -->
                         </div>
                         <div class="mb-3">
                             <label for="task-detail" class="col-form-label">Task detail:</label><br>
@@ -229,6 +268,7 @@ Vue.component('mycomp', {
             data: [{"id":"(null)", "task":"(null)", "status":"(null)", "crated_at":"(null)"}],
             picked_item: {},
             f_task: '',
+            f_status: '',
             f_detail : ''
         }
     },
@@ -243,6 +283,7 @@ Vue.component('mycomp', {
             let self = this;
             self.picked_item = item;
             self.f_task = item.task;
+            self.f_status = item.status;
             self.f_detail = item.detail;
             self.openItemModal();
         },
@@ -281,8 +322,8 @@ Vue.component('mycomp', {
                 url: '/api/todos/' + item.id,
                 data: JSON.stringify({
                     "task": self.f_task,
-                    "detail": self.f_detail,
-                    "status": item.status
+                    "status": self.f_status,
+                    "detail": self.f_detail
                 }),
                 headers: {
                     'accept': 'application/json',
@@ -290,6 +331,7 @@ Vue.component('mycomp', {
                 },
                 success: function(data) {
                     self.f_task = '';
+                    self.f_status = '';
                     self.f_detail = '';
                     self.getdata();
                     console.log('Success', data);
@@ -313,6 +355,7 @@ Vue.component('mycomp', {
                 },
                 success: function(data) {
                     self.f_task = '';
+                    self.f_status = '';
                     self.f_detail = '';
                     self.getdata();
                     console.log('Success', data);

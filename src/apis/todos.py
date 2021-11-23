@@ -12,7 +12,7 @@ todo = api.model('Todo', {
                          description='The task name',
                          example='Build an API'),
     'status': fields.String(required=True,
-                         description='The task status (new/done)',
+                         description='The task status (new/pending/done)',
                          example='new'),
     'created_at': TimeFormat(readonly=True,
                             description='The task created',
@@ -28,10 +28,21 @@ DAO.create({'status': 'done', 'task': 'UPDATE function', 'detail': 'implement ta
 DAO.create({'status': 'done', 'task': 'DELETE function', 'detail': 'implement task-delete function.'})
 DAO.create({'status': 'done', 'task': 'change task\'s status (to done)', 'detail': 'implement status-change function.\n(new)->(done)'})
 DAO.create({'status': 'done', 'task': 'change task\'s status (to new)', 'detail': 'implement status-change function.\n(done)->(new)'})
-DAO.create({'status': 'new', 'task': 'Implement Login Function', 'detail': 'implement Login function'})
+DAO.create({'status': 'pending', 'task': 'Implement Login Function', 'detail': 'implement Login function'})
 DAO.create({'status': 'new', 'task': 'Support for Multiple TODO List', 'detail': 'switching to multiple todo lists.'})
-DAO.create({'status': 'new', 'task': 'Task01'})
-DAO.create({'status': 'new', 'task': 'Task03', 'detail': 'task3 has detail.'})
+
+DAO.create({'status': 'new', 'task': 'Task01' , 'detail': 'Task01'})
+DAO.create({'status': 'new', 'task': 'Task02' , 'detail': 'Task02'})
+DAO.create({'status': 'new', 'task': 'Task03' , 'detail': 'Task03'})
+DAO.create({'status': 'new', 'task': 'Task04' , 'detail': 'Task04'})
+DAO.create({'status': 'pending', 'task': 'Task05' , 'detail': 'Task05'})
+DAO.create({'status': 'pending', 'task': 'Task06' , 'detail': 'Task06'})
+DAO.create({'status': 'pending', 'task': 'Task07' , 'detail': 'Task07'})
+DAO.create({'status': 'pending', 'task': 'Task08' , 'detail': 'Task08'})
+DAO.create({'status': 'done', 'task': 'Task09' , 'detail': 'Task09'})
+DAO.create({'status': 'done', 'task': 'Task10' , 'detail': 'Task10'})
+DAO.create({'status': 'done', 'task': 'Task11' , 'detail': 'Task11'})
+DAO.create({'status': 'done', 'task': 'Task12' , 'detail': 'Task12'})
 
 @api.route('/')
 class TodoList(Resource):
