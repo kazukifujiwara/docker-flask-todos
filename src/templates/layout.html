@@ -39,21 +39,21 @@
         <!-- flex-grow-1: headerで使用していない縦領域を全て使用する -->
         <main class="pt-3 position-relative flex-grow-1">
             <!-- position-absolute をつけることで要素を浮かせる -->
-            <div class="sidebar p-4 bg-light col-xl-3 col-sm-4 position-absolute">
+            <!-- TODO: col-sm-4 → col-sm-6 に変えてみた(様子見) -->
+            <div class="sidebar p-4 bg-light col-xl-3 col-sm-6 position-absolute">
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active" id="list-1-list" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-home">Dummy Menu1</a>
-                    <a class="list-group-item list-group-item-action" id="list-2-list" data-bs-toggle="list" href="#list-2" role="tab" aria-controls="list-profile">Dummy Menu2</a>
-                    <a class="list-group-item list-group-item-action" id="list-3-list" data-bs-toggle="list" href="#list-3" role="tab" aria-controls="list-messages">Dummy Menu3</a>
-                    <a class="list-group-item list-group-item-action" id="list-4-list" data-bs-toggle="list" href="#list-4" role="tab" aria-controls="list-settings">Dummy Menu4</a>
+                    <a class="list-group-item list-group-item-action active" id="sidebar-item-1" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="sidebar-item-1">Dummy Menu1</a>
+                    <a class="list-group-item list-group-item-action" id="sidebar-item-2" data-bs-toggle="list" href="#list-2" role="tab" aria-controls="sidebar-item-2">Dummy Menu2</a>
+                    <a href="/doc" class="list-group-item list-group-item-action">SwaggerUI</a>
+                    <a href="/api/todos" class="list-group-item list-group-item-action">JSON Data</a>
+                    <a href="https://github.com/kazukifujiwara/docker-flask-todos" class="list-group-item list-group-item-action">Source Code(GitHub)</a>
                   </div>
             </div>
             <div class="content">
                 <div class="container">
                     <!-- menuによって表示するコンテンツを切り替える場合はdivの中にコンテンツを記載する(現時点では空)-->
-                    <div class="tab-pane fade show active" id="list-1" role="tabpanel" aria-labelledby="list-1-list"></div>
-                    <div class="tab-pane fade" id="list-2" role="tabpanel" aria-labelledby="list-2-list"></div>
-                    <div class="tab-pane fade" id="list-3" role="tabpanel" aria-labelledby="list-3-list"></div>
-                    <div class="tab-pane fade" id="list-4" role="tabpanel" aria-labelledby="list-4-list"></div>
+                    <div class="tab-pane fade show active" id="list-1" role="tabpanel" aria-labelledby="sidebar-item-1"></div>
+                    <div class="tab-pane fade" id="list-2" role="tabpanel" aria-labelledby="sidebar-item-2"></div>
                 </div>
                 <div class="container-fluid">
                     {% block content %}{% endblock %}

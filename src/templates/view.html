@@ -22,30 +22,17 @@ TODO App
 {% raw %}
 <script type="text/x-template" id="mycomp-template">
     <div>
-        <div class="alert alert-info">
-            <h5>{{alert}}</h5>
-            <ul>
-                <li><a href="/doc">swagger ui</a></li>
-                <li><a href="/api/todos">raw data</a></li>
-            </ul>
-        </div>
+        <h2>ToDo</h2>
 
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Task</th>
-                    <th>ID</th>
-                    <th>Created at</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in data" @click="select(item)">
-                    <td>{{item.task}}</td>
-                    <td>{{item.id}}</td>
-                    <td>{{item.created_at}}</td>
-                </tr>
-            </tbody>
-        </table>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-start" v-for="item in data" @click="select(item)">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">{{item.task}}</div>
+                  memo(dummy)
+                </div>
+                <span class="badge bg-primary rounded-pill">Badge(dummy)</span>
+            </li>
+        </ul>
 
         <div class="modal fade" id="item_modal">
             <div class="modal-dialog" role="document">
