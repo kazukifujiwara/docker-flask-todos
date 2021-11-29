@@ -1,5 +1,7 @@
+"""
+This is a view module called by app.py
+"""
 from flask import Blueprint, render_template
-from flask import jsonify
 
 view_bp = Blueprint('view', __name__, url_prefix='/view')
 

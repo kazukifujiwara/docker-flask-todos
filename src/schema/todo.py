@@ -1,7 +1,13 @@
+"""
+This is a schema module.
+"""
 import datetime as dt
 from marshmallow import Schema, fields
 
 class TodoSchema(Schema):
+    """This is TodoSchema class
+    which defines fields' type, required flag and error messages.
+    """
     task = fields.Str(
         required=True,
         error_messages={'required': {'message': '[task] is required.'}}

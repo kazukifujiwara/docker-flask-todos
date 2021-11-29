@@ -1,3 +1,6 @@
+"""
+This is an api module.
+"""
 from utils.format import TimeFormat
 from flask_restx import Namespace, Resource, fields
 from dao.todo import TodoDAO
@@ -61,6 +64,8 @@ class TodoList(Resource):
 @api.response(404, 'Todo not found')
 @api.param('id', 'The task identifier')
 class Todo(Resource):
+    """This is Todo class
+    """
     @api.doc('get_todo')
     @api.marshal_with(todo)
     def get(self, id):

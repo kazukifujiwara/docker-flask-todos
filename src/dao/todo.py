@@ -1,11 +1,16 @@
+"""
+This is a DAO module.
+"""
 import uuid
 from schema.todo import TodoSchema
 from flask import abort
 from marshmallow.exceptions import ValidationError
 
 class TodoDAO(object):
+    """This is a class for DAO
+    which enable users to get/create/update/delete todo objects.
+    """
     def __init__(self):
-        # self.counter = 0
         self.todos = []
 
     def get(self, id):
@@ -14,7 +19,7 @@ class TodoDAO(object):
             print(id)
             if todo['id'] == uuid.UUID(id):
                 return todo
-        abort(404, "Todo {} doesn't exist".format(id))
+        abort(404, f"Todo {id} doesn't exist")
 
     def create(self, data):
         try:
@@ -34,3 +39,4 @@ class TodoDAO(object):
     def delete(self, id):
         todo = self.get(id)
         self.todos.remove(todo)
+
