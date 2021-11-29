@@ -1,6 +1,8 @@
 """
 This is an api module.
 """
+import csv
+
 from utils.format import TimeFormat
 from flask_restx import Namespace, Resource, fields
 from dao.todo import TodoDAO
@@ -8,7 +10,7 @@ from dao.todo import TodoDAO
 api = Namespace('todos', description='TODO operations')
 
 todo = api.model('Todo', {
-    'id': fields.String(readonly=True,
+    'task_id': fields.String(readonly=True,
                         description='The task unique identifier',
                         example='fdc02467-67df-4577-9ceb-d9a18acc0587'),
     'task': fields.String(required=True,
@@ -26,27 +28,12 @@ todo = api.model('Todo', {
 })
 
 DAO = TodoDAO()
-DAO.create({'status': 'done', 'task': 'ADD function', 'detail': 'implement task-add function.'})
-DAO.create({'status': 'done', 'task': 'UPDATE function', 'detail': 'implement task-update function.'})
-DAO.create({'status': 'done', 'task': 'DELETE function', 'detail': 'implement task-delete function.'})
-DAO.create({'status': 'done', 'task': 'change task\'s status (to done)', 'detail': 'implement status-change function.\n(new)->(done)'})
-DAO.create({'status': 'done', 'task': 'change task\'s status (to new)', 'detail': 'implement status-change function.\n(done)->(new)'})
-DAO.create({'status': 'pending', 'task': 'Implement Login Function', 'detail': 'implement Login function'})
-DAO.create({'status': 'new', 'task': 'Support for Multiple TODO List', 'detail': 'switching to multiple todo lists.'})
-DAO.create({'status': 'new', 'task': 'Data Persistence', 'detail': 'Ensure that data is not lost when the app is restarted.'})
 
-DAO.create({'status': 'new', 'task': 'Task01' , 'detail': 'Task01'})
-DAO.create({'status': 'new', 'task': 'Task02' , 'detail': 'Task02'})
-DAO.create({'status': 'new', 'task': 'Task03' , 'detail': 'Task03'})
-DAO.create({'status': 'new', 'task': 'Task04' , 'detail': 'Task04'})
-DAO.create({'status': 'pending', 'task': 'Task05' , 'detail': 'Task05'})
-DAO.create({'status': 'pending', 'task': 'Task06' , 'detail': 'Task06'})
-DAO.create({'status': 'pending', 'task': 'Task07' , 'detail': 'Task07'})
-DAO.create({'status': 'pending', 'task': 'Task08' , 'detail': 'Task08'})
-DAO.create({'status': 'done', 'task': 'Task09' , 'detail': 'Task09'})
-DAO.create({'status': 'done', 'task': 'Task10' , 'detail': 'Task10'})
-DAO.create({'status': 'done', 'task': 'Task11' , 'detail': 'Task11'})
-DAO.create({'status': 'done', 'task': 'Task12' , 'detail': 'Task12'})
+# Load test data
+with open('test/sample_data.csv', 'r', encoding='utf-8') as f:
+    reader = csv.DictReader(f)
+    for r in reader:
+        DAO.create(r)
 
 @api.route('/')
 class TodoList(Resource):
@@ -60,24 +47,24 @@ class TodoList(Resource):
     def get(self):
         return DAO.todos
 
-@api.route('/<string:id>')
+@api.route('/<string:task_id>')
 @api.response(404, 'Todo not found')
-@api.param('id', 'The task identifier')
+@api.param('task_id', 'The task identifier')
 class Todo(Resource):
     """This is Todo class
     """
     @api.doc('get_todo')
     @api.marshal_with(todo)
-    def get(self, id):
-        return DAO.get(id)
+    def get(self, task_id):
+        return DAO.get(task_id)
 
     @api.doc('delete_todo')
     @api.response(204, 'Todo deleted')
-    def delete(self, id):
-        DAO.delete(id)
+    def delete(self, task_id):
+        DAO.delete(task_id)
         return '', 204
 
     @api.expect(todo)
     @api.marshal_with(todo)
-    def put(self, id):
-        return DAO.update(id, api.payload)
+    def put(self, task_id):
+        return DAO.update(task_id, api.payload)

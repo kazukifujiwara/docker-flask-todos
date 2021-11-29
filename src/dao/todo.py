@@ -13,30 +13,30 @@ class TodoDAO(object):
     def __init__(self):
         self.todos = []
 
-    def get(self, id):
+    def get(self, task_id):
         for todo in self.todos:
-            print(todo['id'])
-            print(id)
-            if todo['id'] == uuid.UUID(id):
+            print(todo['task_id'])
+            print(task_id)
+            if todo['task_id'] == uuid.UUID(task_id):
                 return todo
-        abort(404, f"Todo {id} doesn't exist")
+        abort(404, f"Todo {task_id} doesn't exist")
 
     def create(self, data):
         try:
             schema = TodoSchema()
             result = schema.load(data)
-            result['id'] = uuid.uuid4()
+            result['task_id'] = uuid.uuid4()
             self.todos.append(result)
         except ValidationError as err:
             abort(400, err.messages)
         return result
 
-    def update(self, id, data):
-        todo = self.get(id)
+    def update(self, task_id, data):
+        todo = self.get(task_id)
         todo.update(data)
         return todo
 
-    def delete(self, id):
-        todo = self.get(id)
+    def delete(self, task_id):
+        todo = self.get(task_id)
         self.todos.remove(todo)
 

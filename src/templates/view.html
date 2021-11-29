@@ -265,7 +265,7 @@ Vue.component('mycomp', {
     data:function(){
         return {
             alert: 'TODO API',
-            data: [{"id":"(null)", "task":"(null)", "status":"(null)", "crated_at":"(null)"}],
+            data: [{"task_id":"(null)", "task":"(null)", "status":"(null)", "crated_at":"(null)"}],
             picked_item: {},
             f_task: '',
             f_status: '',
@@ -319,7 +319,7 @@ Vue.component('mycomp', {
             let self = this;
             $.ajax({
                 type: 'PUT',
-                url: '/api/todos/' + item.id,
+                url: '/api/todos/' + item.task_id,
                 data: JSON.stringify({
                     "task": self.f_task,
                     "status": self.f_status,
@@ -349,7 +349,7 @@ Vue.component('mycomp', {
             let self = this;
             $.ajax({
                 type: 'DELETE',
-                url: '/api/todos/' + item.id,
+                url: '/api/todos/' + item.task_id,
                 headers: {
                     'accept': 'application/json'
                 },
@@ -373,7 +373,7 @@ Vue.component('mycomp', {
             let self = this;
             $.ajax({
                 type: 'PUT',
-                url: '/api/todos/' + item.id,
+                url: '/api/todos/' + item.task_id,
                 data: JSON.stringify({
                     "task": item.task,
                     "detail": item.detail,
@@ -397,7 +397,7 @@ Vue.component('mycomp', {
             let self = this;
             $.ajax({
                 type: 'PUT',
-                url: '/api/todos/' + item.id,
+                url: '/api/todos/' + item.task_id,
                 data: JSON.stringify({
                     "task": item.task,
                     "detail": item.detail,
