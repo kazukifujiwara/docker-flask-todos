@@ -1,12 +1,4 @@
 status,task,detail
-done,ADD function,implement task-add function.
-done,UPDATE function,implement task-update function.
-done,DELETE function,implement task-delete function.
-done,change task\s status (to done),implement status-change function.\n(new)->(done)
-done,change task\s status (to new),implement status-change function.\n(done)->(new)
-pending,Implement Login Function,implement Login function
-new,Support for Multiple TODO List,switching to multiple todo lists.
-new,Data Persistence,Ensure that data is not lost when the app is restarted.
 new,Task01,Task01
 new,Task02,Task02
 new,Task03,Task03
@@ -19,3 +11,12 @@ done,Task09,Task09
 done,Task10,Task10
 done,Task11,Task11
 done,Task12,Task12
+done,ADD function,implement task-add function.
+done,UPDATE function,implement task-update function.
+done,DELETE function,implement task-delete function.
+done,change task\s status (to done),implement status-change function.\n(new)->(done)
+done,change task\s status (to new),implement status-change function.\n(done)->(new)
+pending,Implement Login Function,implement Login function
+new,Support for Multiple TODO List,switching to multiple todo lists.
+new,Data Persistence,Ensure that data is not lost when the app is restarted.
+new,Changing Color Theme,
